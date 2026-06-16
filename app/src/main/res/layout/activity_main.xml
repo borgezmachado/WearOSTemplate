@@ -1,38 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:gravity="center"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/txtTitulo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Titulo"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        android:layout_marginBottom="16dp"/>
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/tela5"
+        android:scaleType="centerCrop" />
 
     <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:padding="16dp">
 
-        <Button
+        <TextView
+            android:id="@+id/txtTitulo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="XLR8"
+            android:textColor="#00E5FF"
+            android:textSize="36sp"
+            android:textStyle="bold|italic"
+            android:shadowColor="#006064"
+            android:shadowDx="2"
+            android:shadowDy="2"
+            android:shadowRadius="4"
+            android:layout_marginBottom="12dp" />
+
+        <ImageButton
             android:id="@+id/btnPlay"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Play"/>
+            android:layout_marginBottom="16dp"
+            android:background="@android:drawable/toast_frame"
+            android:backgroundTint="#00E5FF"
+            android:contentDescription="Iniciar treino"
+            android:elevation="8dp"
+            android:padding="24dp"
+            android:scaleType="fitCenter"
+            android:src="@android:drawable/ic_media_play"
+            android:tint="#FFFFFF" />
 
-        <Button
-            android:id="@+id/btnStop"
+        <TextView
+            android:id="@+id/txtSubtitulo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Stop"
-            android:layout_marginStart="8dp"/>
+            android:text="COMECE SEU TREINO"
+            android:textColor="#FF007F"
+            android:textSize="13sp"
+            android:textStyle="bold"
+            android:shadowColor="#4A0033"
+            android:shadowDx="2"
+            android:shadowDy="2"
+            android:shadowRadius="3" />
 
     </LinearLayout>
 
-</LinearLayout>
+</FrameLayout>
