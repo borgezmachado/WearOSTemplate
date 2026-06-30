@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/tela5"
+        android:scaleType="centerCrop" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:padding="12dp"> <TextView
+            android:id="@+id/txtTituloPerfil"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="PERFIL"
+            android:textColor="#00E5FF"
+            android:textSize="24sp" android:textStyle="bold|italic"
+            android:shadowColor="#006064"
+            android:shadowDx="2"
+            android:shadowDy="2"
+            android:shadowRadius="4"
+            android:layout_marginBottom="2dp" />
+
+            <TextView
+                android:id="@+id/txtNome"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="PILOTO XLR8"
+                android:textColor="#FFFFFF"
+                android:textSize="13sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="8dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="DISTÂNCIA TOTAL"
+                android:textColor="#FF007F"
+                android:textSize="10sp"
+                android:textStyle="bold"
+                android:shadowColor="#4A0033"
+                android:shadowDx="2"
+                android:shadowDy="2"
+                android:shadowRadius="3" />
+
+            <TextView
+                android:id="@+id/txtDistanciaTotal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="145.8 KM"
+                android:textColor="#FFFFFF"
+                android:textSize="16sp"
+                android:textStyle="bold|italic"
+                android:layout_marginBottom="6dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="PACE MÉDIO"
+                android:textColor="#FF007F"
+                android:textSize="10sp"
+                android:textStyle="bold"
+                android:shadowColor="#4A0033"
+                android:shadowDx="2"
+                android:shadowDy="2"
+                android:shadowRadius="3" />
+
+            <TextView
+                android:id="@+id/txtPaceMedio"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="05:30 /KM"
+                android:textColor="#FFFFFF"
+                android:textSize="16sp"
+                android:textStyle="bold|italic"
+                android:layout_marginBottom="10dp" />
+
+            <ImageButton
+                android:id="@+id/btnVoltar"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:background="?android:attr/selectableItemBackgroundBorderless"
+                android:contentDescription="Voltar para a tela anterior"
+                android:scaleType="fitCenter"
+                android:src="@android:drawable/ic_menu_revert"
+                android:tint="#0015FF" />
+
+        </LinearLayout>
+    </ScrollView>
+</FrameLayout>
