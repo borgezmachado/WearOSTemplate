@@ -1,5 +1,11 @@
 package com.ifpr.wearostemplate.presentation.baseclasses
 
+import com.google.firebase.database.IgnoreExtraProperties
+
+@IgnoreExtraProperties
 data class Corrida(
-    //adicione aqui os atributos da classe
+    val id: String = "",
+    val distanciaKm: Double = 0.0,
+    val tempoSegundos: Long = 0L,
+    val data: String = ""
 )

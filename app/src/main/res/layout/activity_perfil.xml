@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<<<<<<< HEAD
 <FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -22,18 +22,21 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:gravity="center"
-            android:padding="12dp"> <TextView
-            android:id="@+id/txtTituloPerfil"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="PERFIL"
-            android:textColor="#00E5FF"
-            android:textSize="24sp" android:textStyle="bold|italic"
-            android:shadowColor="#006064"
-            android:shadowDx="2"
-            android:shadowDy="2"
-            android:shadowRadius="4"
-            android:layout_marginBottom="2dp" />
+            android:padding="12dp">
+
+            <TextView
+                android:id="@+id/txtTituloPerfil"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="PERFIL"
+                android:textColor="#00E5FF"
+                android:textSize="24sp"
+                android:textStyle="bold|italic"
+                android:shadowColor="#006064"
+                android:shadowDx="2"
+                android:shadowDy="2"
+                android:shadowRadius="4"
+                android:layout_marginBottom="2dp" />
 
             <TextView
                 android:id="@+id/txtNome"
@@ -97,29 +100,8 @@
                 android:contentDescription="Voltar para a tela anterior"
                 android:scaleType="fitCenter"
                 android:src="@android:drawable/ic_menu_revert"
-                android:tint="#0015FF" />
+                app:tint="#0015FF" />
 
         </LinearLayout>
     </ScrollView>
 </FrameLayout>
-=======
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context=".presentation.PerfilActivity">
-
-    <TextView
-        android:id="@+id/textViewPerfil"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:text="Tela de Perfil"/>
-
-
-
-</LinearLayout>

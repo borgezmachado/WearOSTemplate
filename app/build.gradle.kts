@@ -15,7 +15,6 @@ android {
         targetSdk = 35
         versionCode = 1
         versionName = "1.0"
-
     }
 
     buildTypes {
@@ -55,13 +54,13 @@ dependencies {
     implementation(libs.material)
     implementation(libs.activity)
     implementation(libs.constraintlayout)
-<<<<<<< HEAD
-=======
+
+    // Dependências mantidas da branch do Firebase
     implementation(libs.play.services.base)
     implementation(libs.play.services.basement)
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.database)
->>>>>>> upstream/realtime-database
+
     androidTestImplementation(platform(libs.compose.bom))
     androidTestImplementation(libs.ui.test.junit4)
     debugImplementation(libs.ui.tooling)

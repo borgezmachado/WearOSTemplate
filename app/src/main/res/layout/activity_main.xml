@@ -16,19 +16,21 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:gravity="center"
-        android:padding="8dp"> <TextView
-        android:id="@+id/txtTitulo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="XLR8"
-        android:textColor="#00E5FF"
-        android:textSize="28sp"
-        android:textStyle="bold|italic"
-        android:shadowColor="#006064"
-        android:shadowDx="2"
-        android:shadowDy="2"
-        android:shadowRadius="4"
-        android:layout_marginBottom="4dp" />
+        android:padding="8dp">
+
+        <TextView
+            android:id="@+id/txtTitulo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="XLR8"
+            android:textColor="#00E5FF"
+            android:textSize="28sp"
+            android:textStyle="bold|italic"
+            android:shadowColor="#006064"
+            android:shadowDx="2"
+            android:shadowDy="2"
+            android:shadowRadius="4"
+            android:layout_marginBottom="4dp" />
 
         <ImageButton
             android:id="@+id/btnPlay"
@@ -42,7 +44,7 @@
             android:padding="12dp"
             android:scaleType="fitCenter"
             android:src="@android:drawable/ic_media_play"
-            android:tint="#FFFFFF" />
+            app:tint="#FFFFFF" />
 
         <TextView
             android:id="@+id/txtSubtitulo"
@@ -73,16 +75,4 @@
 
     </LinearLayout>
 
-<<<<<<< HEAD
 </FrameLayout>
-=======
-    <Button
-        android:id="@+id/btnPerfil"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Perfil"
-        android:layout_marginStart="8dp"/>
-
-
-</LinearLayout>
->>>>>>> upstream/realtime-database
