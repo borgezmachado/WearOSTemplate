@@ -1,15 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#080C14">
 
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:src="@drawable/tela5"
-        android:scaleType="centerCrop" />
+        android:alpha="0.35"
+        android:scaleType="centerCrop"
+        android:src="@drawable/tela5" />
 
     <ScrollView
         android:layout_width="match_parent"
@@ -20,87 +22,158 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
             android:orientation="vertical"
-            android:gravity="center"
-            android:padding="12dp">
+            android:paddingHorizontal="14dp"
+            android:paddingVertical="12dp">
 
+            <!-- Título -->
             <TextView
                 android:id="@+id/txtTituloPerfil"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="PERFIL"
+                android:letterSpacing="0.1"
+                android:shadowColor="#00E5FF"
+                android:shadowDx="0"
+                android:shadowDy="0"
+                android:shadowRadius="10"
+                android:text="PERFIL XLR8"
                 android:textColor="#00E5FF"
-                android:textSize="24sp"
-                android:textStyle="bold|italic"
-                android:shadowColor="#006064"
-                android:shadowDx="2"
-                android:shadowDy="2"
-                android:shadowRadius="4"
-                android:layout_marginBottom="2dp" />
+                android:textSize="14sp"
+                android:textStyle="bold|italic" />
 
+            <!-- Foto de Perfil Arredondada -->
+            <ImageView
+                android:id="@+id/imgFotoPerfil"
+                android:layout_width="42dp"
+                android:layout_height="42dp"
+                android:layout_marginTop="4dp"
+                android:background="@android:drawable/toast_frame"
+                android:backgroundTint="#2500E5FF"
+                android:padding="2dp"
+                android:scaleType="centerCrop"
+                android:src="@android:drawable/ic_menu_gallery"
+                app:tint="#00E5FF" />
+
+            <!-- Nome do Atleta -->
             <TextView
                 android:id="@+id/txtNome"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="PILOTO XLR8"
+                android:layout_marginTop="4dp"
+                android:layout_marginBottom="6dp"
+                android:background="@android:drawable/toast_frame"
+                android:backgroundTint="#2500E5FF"
+                android:paddingHorizontal="10dp"
+                android:paddingVertical="2dp"
                 android:textColor="#FFFFFF"
-                android:textSize="13sp"
+                android:textSize="11sp"
                 android:textStyle="bold"
-                android:layout_marginBottom="8dp" />
+                tools:text="PILOTO XLR8" />
 
-            <TextView
-                android:layout_width="wrap_content"
+            <!-- Card Distância Total -->
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="DISTÂNCIA TOTAL"
-                android:textColor="#FF007F"
-                android:textSize="10sp"
-                android:textStyle="bold"
-                android:shadowColor="#4A0033"
-                android:shadowDx="2"
-                android:shadowDy="2"
-                android:shadowRadius="3" />
+                android:layout_marginBottom="4dp"
+                android:background="@android:drawable/toast_frame"
+                android:backgroundTint="#1B0088FF"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:paddingVertical="4dp">
 
-            <TextView
-                android:id="@+id/txtDistanciaTotal"
-                android:layout_width="wrap_content"
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:letterSpacing="0.05"
+                    android:text="DISTÂNCIA TOTAL"
+                    android:textColor="#70A0FF"
+                    android:textSize="8sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/txtDistanciaTotal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#FFFFFF"
+                    android:textSize="14sp"
+                    android:textStyle="bold|italic"
+                    tools:text="0.0 KM" />
+            </LinearLayout>
+
+            <!-- Card Tempo Total -->
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="145.8 KM"
-                android:textColor="#FFFFFF"
-                android:textSize="16sp"
-                android:textStyle="bold|italic"
-                android:layout_marginBottom="6dp" />
+                android:layout_marginBottom="4dp"
+                android:background="@android:drawable/toast_frame"
+                android:backgroundTint="#1B0088FF"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:paddingVertical="4dp">
 
-            <TextView
-                android:layout_width="wrap_content"
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:letterSpacing="0.05"
+                    android:text="TEMPO TOTAL"
+                    android:textColor="#70A0FF"
+                    android:textSize="8sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/txtTempoTotal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#FFFFFF"
+                    android:textSize="14sp"
+                    android:textStyle="bold|italic"
+                    tools:text="00h 00m" />
+            </LinearLayout>
+
+            <!-- Card Pace Médio -->
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="PACE MÉDIO"
-                android:textColor="#FF007F"
-                android:textSize="10sp"
-                android:textStyle="bold"
-                android:shadowColor="#4A0033"
-                android:shadowDx="2"
-                android:shadowDy="2"
-                android:shadowRadius="3" />
+                android:layout_marginBottom="6dp"
+                android:background="@android:drawable/toast_frame"
+                android:backgroundTint="#1B0088FF"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:paddingVertical="4dp">
 
-            <TextView
-                android:id="@+id/txtPaceMedio"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="05:30 /KM"
-                android:textColor="#FFFFFF"
-                android:textSize="16sp"
-                android:textStyle="bold|italic"
-                android:layout_marginBottom="10dp" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:letterSpacing="0.05"
+                    android:text="PACE MÉDIO"
+                    android:textColor="#70A0FF"
+                    android:textSize="8sp"
+                    android:textStyle="bold" />
 
+                <TextView
+                    android:id="@+id/txtPaceMedio"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#FFFFFF"
+                    android:textSize="14sp"
+                    android:textStyle="bold|italic"
+                    tools:text="--:-- /KM" />
+            </LinearLayout>
+
+            <!-- Botão Voltar -->
             <ImageButton
                 android:id="@+id/btnVoltar"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                android:background="?android:attr/selectableItemBackgroundBorderless"
-                android:contentDescription="Voltar para a tela anterior"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:layout_marginBottom="8dp"
+                android:background="@android:drawable/toast_frame"
+                android:backgroundTint="#2500E5FF"
+                android:contentDescription="Voltar"
+                android:padding="8dp"
                 android:scaleType="fitCenter"
                 android:src="@android:drawable/ic_menu_revert"
-                app:tint="#0015FF" />
+                app:tint="#00E5FF" />
 
         </LinearLayout>
     </ScrollView>

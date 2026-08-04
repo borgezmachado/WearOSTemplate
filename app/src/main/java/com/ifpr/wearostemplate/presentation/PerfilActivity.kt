@@ -2,93 +2,97 @@ package com.ifpr.wearostemplate.presentation
 
 import android.os.Bundle
 import android.widget.ImageButton
+import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
 import androidx.activity.ComponentActivity
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.ifpr.wearostemplate.R
+import com.ifpr.wearostemplate.presentation.baseclasses.Corrida
 import java.util.Locale
 
 class PerfilActivity : ComponentActivity() {
 
-    private lateinit var txtNome: TextView
     private lateinit var txtDistanciaTotal: TextView
+    private lateinit var txtTempoTotal: TextView
     private lateinit var txtPaceMedio: TextView
+    private lateinit var txtNome: TextView
+    private lateinit var imgFotoPerfil: ImageView
     private lateinit var btnVoltar: ImageButton
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setTheme(android.R.style.Theme_DeviceDefault)
         setContentView(R.layout.activity_perfil)
 
-        txtNome = findViewById(R.id.txtNome)
         txtDistanciaTotal = findViewById(R.id.txtDistanciaTotal)
+        txtTempoTotal = findViewById(R.id.txtTempoTotal)
         txtPaceMedio = findViewById(R.id.txtPaceMedio)
+        txtNome = findViewById(R.id.txtNome)
+        imgFotoPerfil = findViewById(R.id.imgFotoPerfil)
         btnVoltar = findViewById(R.id.btnVoltar)
-
-        txtNome.text = "PILOTO XLR8"
 
         btnVoltar.setOnClickListener {
             finish()
         }
 
-        carregarEstatisticasRealtimeDatabase()
+        carregarDadosDoFirebase()
     }
 
-    private fun carregarEstatisticasRealtimeDatabase() {
-        // Conecta no nó "corridas" do Realtime Database
-        val ref = FirebaseDatabase.getInstance().getReference("corridas")
+    private fun carregarDadosDoFirebase() {
+        val databaseRef = FirebaseDatabase.getInstance().getReference("corridas")
 
-        ref.addValueEventListener(object : ValueEventListener {
+        databaseRef.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
-                var somaDistanciaKm = 0.0
-                var somaTempoSegundos = 0L
+                var distanciaTotalKm = 0.0
+                var tempoTotalSegundos = 0L
 
-                if (snapshot.exists()) {
-                    for (child in snapshot.children) {
-                        // Leitura direta e segura das propriedades do Realtime Database
-                        val distancia = child.child("distanciaKm").getValue(Double::class.java)
-                            ?: child.child("distanciaKm").getValue(Long::class.java)?.toDouble()
-                            ?: 0.0
-
-                        val tempo = child.child("tempoSegundos").getValue(Long::class.java)
-                            ?: child.child("tempoSegundos").getValue(Int::class.java)?.toLong()
-                            ?: 0L
-
-                        somaDistanciaKm += distancia
-                        somaTempoSegundos += tempo
+                for (item in snapshot.children) {
+                    val corrida = item.getValue(Corrida::class.java)
+                    if (corrida != null) {
+                        distanciaTotalKm += corrida.distanciaKm
+                        tempoTotalSegundos += corrida.tempoSegundos
                     }
                 }
 
-                atualizarInterface(somaDistanciaKm, somaTempoSegundos)
+                atualizarInterface(distanciaTotalKm, tempoTotalSegundos)
             }
 
             override fun onCancelled(error: DatabaseError) {
-                Toast.makeText(
-                    this@PerfilActivity,
-                    "Erro Realtime DB: ${error.message}",
-                    Toast.LENGTH_LONG
-                ).show()
+                // Em caso de falha de conexão, exibe dados padrão zerados
+                atualizarInterface(0.0, 0L)
             }
         })
     }
 
-    private fun atualizarInterface(distanciaTotalKm: Double, tempoTotalSegundos: Long) {
-        // Exibe distância total (ex: 145.8 KM)
-        txtDistanciaTotal.text = String.format(Locale.US, "%.1f KM", distanciaTotalKm)
+    private fun atualizarInterface(distanciaKm: Double, tempoSegundos: Long) {
+        // 1. Formata Distância
+        txtDistanciaTotal.text = String.format(Locale.US, "%.1f KM", distanciaKm)
 
-        // Calcula Pace Médio (Tempo total em minutos / Distância total em KM)
-        if (distanciaTotalKm > 0) {
-            val tempoMinutos = tempoTotalSegundos / 60.0
-            val pace = tempoMinutos / distanciaTotalKm
-            val minutos = pace.toInt()
-            val segundos = ((pace - minutos) * 60).toInt()
+        // 2. Formata Tempo Total em Horas e Minutos (Garante exibição até para 0s)
+        val horas = tempoSegundos / 3600
+        val minutos = (tempoSegundos % 3600) / 60
+        val segundosRestantes = tempoSegundos % 60
 
-            txtPaceMedio.text = String.format(Locale.US, "%02d:%02d /KM", minutos, segundos)
+        txtTempoTotal.text = if (horas > 0) {
+            String.format(Locale.US, "%02dh %02dm", horas, minutos)
         } else {
-            txtPaceMedio.text = "00:00 /KM"
+            String.format(Locale.US, "%02dm %02ds", minutos, segundosRestantes)
+        }
+
+        // 3. Calcula o Pace Médio (min/km)
+        if (distanciaKm > 0.0 && tempoSegundos > 0L) {
+            val tempoTotalMinutos = tempoSegundos / 60.0
+            val paceMinutosPorKm = tempoTotalMinutos / distanciaKm
+
+            val paceMin = paceMinutosPorKm.toInt()
+            val paceSeg = ((paceMinutosPorKm - paceMin) * 60).toInt()
+
+            txtPaceMedio.text = String.format(Locale.US, "%02d:%02d /KM", paceMin, paceSeg)
+        } else {
+            txtPaceMedio.text = "--:-- /KM"
         }
     }
 }

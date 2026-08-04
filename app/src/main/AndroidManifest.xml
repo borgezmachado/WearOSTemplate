@@ -12,24 +12,16 @@
         android:supportsRtl="true"
         android:theme="@android:style/Theme.DeviceDefault">
 
-        <activity
-            android:name=".presentation.PerfilActivity"
-            android:exported="false"
-            android:taskAffinity=""
-            android:theme="@style/Theme.AppCompat.NoActionBar" />
-
         <uses-library
             android:name="com.google.android.wearable"
             android:required="true" />
 
-        <!--
-               Set to true if your app is Standalone, that is, it does not require the handheld
-               app to run.
-        -->
+        <!-- Indica que o aplicativo funciona de forma independente no relógio -->
         <meta-data
             android:name="com.google.android.wearable.standalone"
             android:value="true" />
 
+        <!-- Tela Principal (Início) -->
         <activity
             android:name=".presentation.MainActivity"
             android:exported="true"
@@ -37,10 +29,24 @@
             android:theme="@style/MainActivityTheme.Starting">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <!-- Nova Tela de Treino (Start/Stop + Firebase) -->
+        <activity
+            android:name=".presentation.TreinoActivity"
+            android:exported="false"
+            android:taskAffinity=""
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
+
+        <!-- Tela de Perfil -->
+        <activity
+            android:name=".presentation.PerfilActivity"
+            android:exported="false"
+            android:taskAffinity=""
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
+
     </application>
 
 </manifest>
