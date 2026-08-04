@@ -1,206 +1,234 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#090B10"
-    android:fillViewport="true">
+    android:background="#060911">
 
-    <LinearLayout
+    <!-- Fundo Esportivo com Opacidade Ajustada -->
+    <ImageView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
-        android:orientation="vertical"
-        android:paddingHorizontal="14dp"
-        android:paddingVertical="10dp">
+        android:layout_height="match_parent"
+        android:alpha="0.20"
+        android:scaleType="centerCrop"
+        android:src="@drawable/tela5" />
 
-        <!-- Nome do App em Azul Neon -->
-        <TextView
-            android:id="@+id/txtAppName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:letterSpacing="0.15"
-            android:shadowColor="#00E5FF"
-            android:shadowDx="0"
-            android:shadowDy="0"
-            android:shadowRadius="10"
-            android:text="XLR8"
-            android:textColor="#00E5FF"
-            android:textSize="13sp"
-            android:textStyle="bold|italic" />
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        android:scrollbars="none">
 
-        <!-- Data Atual Atualizada via Variável Dinâmica -->
-        <TextView
-            android:id="@+id/txtData"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="1dp"
-            android:textColor="#8A99AD"
-            android:textSize="9sp"
-            android:textStyle="bold"
-            tools:text="TER, 04 DE AGO" />
-
-        <!-- Badge de Status Ativo -->
         <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:layout_marginBottom="4dp"
-            android:background="@android:drawable/toast_frame"
-            android:backgroundTint="#20FF0055"
-            android:gravity="center"
-            android:paddingHorizontal="8dp"
-            android:paddingVertical="2dp">
-
-            <View
-                android:layout_width="5dp"
-                android:layout_height="5dp"
-                android:layout_marginEnd="4dp"
-                android:background="@android:drawable/toast_frame"
-                android:backgroundTint="#FF0055" />
-
-            <TextView
-                android:id="@+id/txtStatus"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:letterSpacing="0.08"
-                android:text="TREINO ATIVO"
-                android:textColor="#FF0055"
-                android:textSize="8sp"
-                android:textStyle="bold" />
-        </LinearLayout>
-
-        <!-- Cronômetro Principal -->
-        <Chronometer
-            android:id="@+id/chronometer"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="sans-serif-medium"
-            android:letterSpacing="0.05"
-            android:shadowColor="#4000E5FF"
-            android:shadowDx="0"
-            android:shadowDy="4"
-            android:shadowRadius="10"
-            android:textColor="#FFFFFF"
-            android:textSize="26sp"
-            android:textStyle="bold"
-            tools:text="00:15:42" />
-
-        <!-- Painel de Métricas Esportivas (KM, PACE, KCAL) -->
-        <LinearLayout
+            android:id="@+id/containerTreino"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="6dp"
-            android:gravity="center"
-            android:orientation="horizontal">
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:paddingHorizontal="12dp"
+            android:paddingVertical="10dp">
 
-            <!-- Card Distância (KM) -->
-            <LinearLayout
-                android:layout_width="0dp"
+            <!-- TÍTULO XLR8 (Sem shadowRadius para evitar retângulo preto) -->
+            <TextView
+                android:id="@+id/txtAppName"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="3dp"
-                android:layout_weight="1"
+                android:letterSpacing="0.15"
+                android:text="XLR8"
+                android:textColor="#00E5FF"
+                android:textSize="14sp"
+                android:textStyle="bold|italic" />
+
+            <!-- DATA ATUAL -->
+            <TextView
+                android:id="@+id/txtData"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="1dp"
+                android:textColor="#8A99AD"
+                android:textSize="9sp"
+                android:textStyle="bold"
+                tools:text="TER, 04 DE AGO" />
+
+            <!-- BADGE STATUS ATIVO COM PONTO PULSANTE -->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:layout_marginBottom="6dp"
                 android:background="@android:drawable/toast_frame"
-                android:backgroundTint="#1500E5FF"
-                android:gravity="center"
-                android:orientation="vertical"
-                android:paddingVertical="4dp">
+                android:backgroundTint="#25FF0055"
+                android:gravity="center_vertical"
+                android:paddingHorizontal="8dp"
+                android:paddingVertical="2dp">
+
+                <View
+                    android:id="@+id/pulseLive"
+                    android:layout_width="6dp"
+                    android:layout_height="6dp"
+                    android:layout_marginEnd="4dp"
+                    android:background="@drawable/circle_neon_ring"
+                    android:backgroundTint="#FF0055" />
 
                 <TextView
+                    android:id="@+id/txtStatus"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="KM"
-                    android:textColor="#00E5FF"
+                    android:letterSpacing="0.08"
+                    android:text="TREINO ATIVO"
+                    android:textColor="#FF0055"
                     android:textSize="8sp"
                     android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/txtDistanciaTreino"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="#FFFFFF"
-                    android:textSize="12sp"
-                    android:textStyle="bold"
-                    tools:text="2.50" />
             </LinearLayout>
 
-            <!-- Card Pace (/KM) -->
-            <LinearLayout
-                android:layout_width="0dp"
+            <!-- CRONÔMETRO PRINCIPAL NEON -->
+            <Chronometer
+                android:id="@+id/chronometer"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="3dp"
-                android:layout_weight="1"
+                android:fontFamily="sans-serif-medium"
+                android:letterSpacing="0.05"
+                android:textColor="#FFFFFF"
+                android:textSize="26sp"
+                android:textStyle="bold"
+                tools:text="00:15:42" />
+
+            <!-- PAINEL DE MÉTRICAS (KM, PACE, KCAL) -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:layout_marginBottom="8dp"
                 android:background="@android:drawable/toast_frame"
                 android:backgroundTint="#1500E5FF"
-                android:gravity="center"
-                android:orientation="vertical"
-                android:paddingVertical="4dp">
+                android:orientation="horizontal"
+                android:padding="6dp">
 
-                <TextView
-                    android:layout_width="wrap_content"
+                <!-- CARD DISTÂNCIA -->
+                <LinearLayout
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="PACE"
-                    android:textColor="#00E5FF"
-                    android:textSize="8sp"
-                    android:textStyle="bold" />
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/txtPaceTreino"
-                    android:layout_width="wrap_content"
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="KM"
+                        android:textColor="#00E5FF"
+                        android:textSize="7sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/txtDistanciaTreino"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="#FFFFFF"
+                        android:textSize="11sp"
+                        android:textStyle="bold"
+                        tools:text="2.50" />
+                </LinearLayout>
+
+                <!-- DIVISOR VERTICAL -->
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="16dp"
+                    android:layout_gravity="center_vertical"
+                    android:background="#3000E5FF" />
+
+                <!-- CARD PACE -->
+                <LinearLayout
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:textColor="#FFFFFF"
-                    android:textSize="12sp"
-                    android:textStyle="bold"
-                    tools:text="05:30" />
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="PACE"
+                        android:textColor="#00E5FF"
+                        android:textSize="7sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/txtPaceTreino"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="#FFFFFF"
+                        android:textSize="11sp"
+                        android:textStyle="bold"
+                        tools:text="05:30" />
+                </LinearLayout>
+
+                <!-- DIVISOR VERTICAL -->
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="16dp"
+                    android:layout_gravity="center_vertical"
+                    android:background="#3000E5FF" />
+
+                <!-- CARD KCAL -->
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="KCAL"
+                        android:textColor="#00E5FF"
+                        android:textSize="7sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/txtCaloriasTreino"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="#FFFFFF"
+                        android:textSize="11sp"
+                        android:textStyle="bold"
+                        tools:text="180" />
+                </LinearLayout>
+
             </LinearLayout>
 
-            <!-- Card Calorias (KCAL) -->
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="@android:drawable/toast_frame"
-                android:backgroundTint="#1500E5FF"
-                android:gravity="center"
-                android:orientation="vertical"
-                android:paddingVertical="4dp">
+            <!-- BOTÃO STOP ARREDONDADO COM ANEL PULSANTE RED -->
+            <FrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="KCAL"
-                    android:textColor="#00E5FF"
-                    android:textSize="8sp"
-                    android:textStyle="bold" />
+                <View
+                    android:id="@+id/pulseStop"
+                    android:layout_width="52dp"
+                    android:layout_height="52dp"
+                    android:layout_gravity="center"
+                    android:alpha="0.3"
+                    android:background="@drawable/circle_neon_ring"
+                    android:backgroundTint="#FF0055" />
 
-                <TextView
-                    android:id="@+id/txtCaloriasTreino"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="#FFFFFF"
-                    android:textSize="12sp"
-                    android:textStyle="bold"
-                    tools:text="180" />
-            </LinearLayout>
+                <ImageButton
+                    android:id="@+id/btnStop"
+                    android:layout_width="42dp"
+                    android:layout_height="42dp"
+                    android:layout_gravity="center"
+                    android:background="@drawable/circle_neon_ring"
+                    android:backgroundTint="#FF0055"
+                    android:contentDescription="Parar e Salvar Treino"
+                    android:elevation="4dp"
+                    android:padding="10dp"
+                    android:scaleType="fitCenter"
+                    android:src="@android:drawable/ic_media_pause"
+                    app:tint="#060911" />
+            </FrameLayout>
 
         </LinearLayout>
+    </ScrollView>
 
-        <!-- Botão Stop -->
-        <ImageButton
-            android:id="@+id/btnStop"
-            android:layout_width="46dp"
-            android:layout_height="46dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="10dp"
-            android:background="@android:drawable/toast_frame"
-            android:backgroundTint="#FF0055"
-            android:contentDescription="Parar e Salvar Treino"
-            android:elevation="4dp"
-            android:padding="12dp"
-            android:scaleType="fitCenter"
-            android:src="@android:drawable/ic_media_pause"
-            app:tint="#FFFFFF" />
-
-    </LinearLayout>
-</ScrollView>
+</FrameLayout>
