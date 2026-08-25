@@ -104,14 +104,14 @@ class TreinoActivity : ComponentActivity() {
         val databaseRef = FirebaseDatabase.getInstance().getReference("corridas")
         val corridaId = databaseRef.push().key ?: return
 
-        val sdf = SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault())
-        val dataAtual = sdf.format(Date())
+        // Timestamp numérico (Long) para ser aceito pela classe Corrida
+        val dataTimestamp = System.currentTimeMillis()
 
         val novaCorrida = Corrida(
             id = corridaId,
             distanciaKm = distanciaKm,
             tempoSegundos = tempoSegundos,
-            data = dataAtual
+            data = dataTimestamp
         )
 
         databaseRef.child(corridaId).setValue(novaCorrida)

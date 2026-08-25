@@ -5,6 +5,7 @@
     android:layout_height="match_parent"
     android:background="#060911">
 
+    <!-- Imagem de Fundo Suave -->
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -26,7 +27,7 @@
             android:paddingHorizontal="12dp"
             android:paddingVertical="10dp">
 
-            <!-- TÍTULO XLR8 (Brilho aplicado via Kotlin) -->
+            <!-- TÍTULO XLR8 -->
             <TextView
                 android:id="@+id/txtTitulo"
                 android:layout_width="wrap_content"
@@ -34,65 +35,137 @@
                 android:letterSpacing="0.12"
                 android:text="XLR8"
                 android:textColor="#00E5FF"
-                android:textSize="30sp"
+                android:textSize="26sp"
                 android:textStyle="bold|italic" />
 
+            <!-- SUBTÍTULO -->
             <TextView
                 android:id="@+id/txtSubtitulo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="2dp"
-                android:layout_marginBottom="12dp"
-                android:background="@android:drawable/toast_frame"
-                android:backgroundTint="#25FF0055"
+                android:layout_marginBottom="8dp"
                 android:letterSpacing="0.08"
-                android:paddingHorizontal="10dp"
-                android:paddingVertical="2dp"
                 android:text="READY TO RUN"
                 android:textColor="#FF0055"
                 android:textSize="8sp"
                 android:textStyle="bold" />
 
+            <!-- PAINEL DE DADOS DA CORRIDA (TEMPO, DISTÂNCIA, RITMO) -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:background="#1500E5FF"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="6dp">
+
+                <!-- TEMPO -->
+                <TextView
+                    android:id="@+id/txtTempo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="00:00"
+                    android:textColor="#FFFFFF"
+                    android:textSize="22sp"
+                    android:textStyle="bold" />
+
+                <!-- DISTÂNCIA E RITMO LADO A LADO -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/txtDistancia"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="8dp"
+                        android:text="0.00 km"
+                        android:textColor="#00E5FF"
+                        android:textSize="11sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/txtRitmo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="-- min/km"
+                        android:textColor="#FF0055"
+                        android:textSize="11sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <!-- BOTÃO PLAY CENTRAL COM PULSO NEON -->
             <FrameLayout
                 android:id="@+id/containerPlay"
-                android:layout_width="72dp"
-                android:layout_height="72dp"
-                android:layout_marginBottom="10dp">
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_marginBottom="8dp">
 
                 <View
                     android:id="@+id/pulseRing"
-                    android:layout_width="66dp"
-                    android:layout_height="66dp"
+                    android:layout_width="56dp"
+                    android:layout_height="56dp"
                     android:layout_gravity="center"
                     android:alpha="0.4"
                     android:background="@drawable/circle_neon_ring" />
 
                 <ImageButton
                     android:id="@+id/btnPlay"
-                    android:layout_width="52dp"
-                    android:layout_height="52dp"
+                    android:layout_width="46dp"
+                    android:layout_height="46dp"
                     android:layout_gravity="center"
                     android:background="@drawable/circle_neon_ring"
                     android:contentDescription="Iniciar treino"
                     android:elevation="6dp"
-                    android:padding="14dp"
+                    android:padding="12dp"
                     android:scaleType="fitCenter"
                     android:src="@android:drawable/ic_media_play"
                     app:tint="#060911" />
             </FrameLayout>
 
+            <!-- BOTÕES DE AÇÃO (INICIAR / PARAR) -->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="6dp"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/btnStart"
+                    android:layout_width="wrap_content"
+                    android:layout_height="32dp"
+                    android:paddingHorizontal="10dp"
+                    android:paddingVertical="0dp"
+                    android:text="INICIAR"
+                    android:textSize="8sp" />
+
+                <Button
+                    android:id="@+id/btnStop"
+                    android:layout_width="wrap_content"
+                    android:layout_height="32dp"
+                    android:layout_marginStart="6dp"
+                    android:paddingHorizontal="10dp"
+                    android:paddingVertical="0dp"
+                    android:text="PARAR"
+                    android:textSize="8sp" />
+            </LinearLayout>
+
+            <!-- BOTÃO PERFIL -->
             <Button
                 android:id="@+id/btnPerfil"
                 android:layout_width="wrap_content"
-                android:layout_height="32dp"
-                android:background="@android:drawable/toast_frame"
-                android:backgroundTint="#2000E5FF"
+                android:layout_height="30dp"
                 android:letterSpacing="0.08"
-                android:paddingHorizontal="16dp"
+                android:paddingHorizontal="14dp"
                 android:paddingVertical="0dp"
                 android:text="VER PERFIL"
                 android:textColor="#00E5FF"
-                android:textSize="9sp"
+                android:textSize="8sp"
                 android:textStyle="bold" />
 
         </LinearLayout>

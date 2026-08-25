@@ -26,15 +26,21 @@ android {
             )
         }
     }
+
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
-    kotlinOptions {
-        jvmTarget = "11"
-    }
+
     buildFeatures {
         compose = true
+    }
+}
+
+// Configuração moderna do Kotlin usando compilerOptions DSL
+kotlin {
+    compilerOptions {
+        jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17)
     }
 }
 
@@ -55,11 +61,12 @@ dependencies {
     implementation(libs.activity)
     implementation(libs.constraintlayout)
 
-    // Dependências mantidas da branch do Firebase
+    // Dependências do Firebase + Localização
     implementation(libs.play.services.base)
     implementation(libs.play.services.basement)
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.database)
+    implementation(libs.play.services.location)
 
     androidTestImplementation(platform(libs.compose.bom))
     androidTestImplementation(libs.ui.test.junit4)
