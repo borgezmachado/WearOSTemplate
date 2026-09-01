@@ -5,18 +5,19 @@ import android.animation.PropertyValuesHolder
 import android.animation.ValueAnimator
 import android.graphics.BlurMaskFilter
 import android.os.Bundle
+import android.util.Log
 import android.view.View
-import android.view.animation.AnimationUtils
+import android.view.animation.DecelerateInterpolator
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.ifpr.wearostemplate.R
-import com.ifpr.wearostemplate.presentation.baseclasses.Corrida
 import java.util.Locale
 
 class PerfilActivity : ComponentActivity() {
@@ -27,42 +28,50 @@ class PerfilActivity : ComponentActivity() {
     private lateinit var txtNome: TextView
     private lateinit var imgFotoPerfil: ImageView
     private lateinit var btnVoltar: ImageButton
+    private lateinit var cardStats: View
+
+    private var animadorPulso: ObjectAnimator? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setTheme(android.R.style.Theme_DeviceDefault)
         setContentView(R.layout.activity_perfil)
 
-        // Mapeamento dos elementos
+        // 1. Mapeamento das views do layout XML
         txtDistanciaTotal = findViewById(R.id.txtDistanciaTotal)
         txtTempoTotal = findViewById(R.id.txtTempoTotal)
         txtPaceMedio = findViewById(R.id.txtPaceMedio)
         txtNome = findViewById(R.id.txtNome)
         imgFotoPerfil = findViewById(R.id.imgFotoPerfil)
         btnVoltar = findViewById(R.id.btnVoltar)
+        cardStats = findViewById(R.id.cardStats)
 
-        // 1. Aplica o efeito Neon Glow de alta definição no Nome do Atleta (sem retângulo feio)
+        // 2. Aplicação de efeito visual
         aplicarEfeitoGlowNeon(txtNome)
 
-        // 2. Animação de entrada fluida para os elementos do perfil
-        val animEntrada = AnimationUtils.loadAnimation(this, R.anim.fade_slide_up)
-        txtNome.startAnimation(animEntrada)
-        imgFotoPerfil.startAnimation(animEntrada)
-        txtDistanciaTotal.startAnimation(animEntrada)
-        txtTempoTotal.startAnimation(animEntrada)
-        txtPaceMedio.startAnimation(animEntrada)
-
-        // 3. Animação de pulso suave na Foto de Perfil
-        iniciarAnimacaoPulso(imgFotoPerfil)
-
-        // 4. Clique no Botão Voltar com micro-interação elástica
-        btnVoltar.setOnClickListener { view ->
-            view.animate().scaleX(0.85f).scaleY(0.85f).setDuration(90).withEndAction {
-                view.animate().scaleX(1.0f).scaleY(1.0f).setDuration(90).start()
-                finish()
-            }.start()
+        // 3. Execução das animações de forma segura
+        window.decorView.post {
+            executarAnimacoesEntrada()
+            iniciarAnimacaoPulso(imgFotoPerfil)
         }
 
+        // 4. Ação do botão voltar
+        btnVoltar.setOnClickListener { view ->
+            view.animate()
+                .scaleX(0.85f)
+                .scaleY(0.85f)
+                .setDuration(90)
+                .withEndAction {
+                    view.animate()
+                        .scaleX(1.0f)
+                        .scaleY(1.0f)
+                        .setDuration(90)
+                        .withEndAction { finish() }
+                        .start()
+                }.start()
+        }
+
+        // 5. Carregamento e vinculação dos dados do Firebase
         carregarDadosDoFirebase()
     }
 
@@ -71,11 +80,28 @@ class PerfilActivity : ComponentActivity() {
         textView.paint.maskFilter = BlurMaskFilter(10f, BlurMaskFilter.Blur.SOLID)
     }
 
+    private fun executarAnimacoesEntrada() {
+        val elementos = listOf(imgFotoPerfil, txtNome, cardStats, btnVoltar)
+
+        elementos.forEachIndexed { index, view ->
+            view.alpha = 0f
+            view.translationY = 30f
+
+            view.animate()
+                .alpha(1f)
+                .translationY(0f)
+                .setDuration(350)
+                .setStartDelay((index * 70).toLong())
+                .setInterpolator(DecelerateInterpolator())
+                .start()
+        }
+    }
+
     private fun iniciarAnimacaoPulso(view: View) {
         val scaleX = PropertyValuesHolder.ofFloat(View.SCALE_X, 0.96f, 1.04f)
         val scaleY = PropertyValuesHolder.ofFloat(View.SCALE_Y, 0.96f, 1.04f)
 
-        ObjectAnimator.ofPropertyValuesHolder(view, scaleX, scaleY).apply {
+        animadorPulso = ObjectAnimator.ofPropertyValuesHolder(view, scaleX, scaleY).apply {
             duration = 1200
             repeatCount = ValueAnimator.INFINITE
             repeatMode = ValueAnimator.REVERSE
@@ -92,25 +118,40 @@ class PerfilActivity : ComponentActivity() {
                 var tempoTotalSegundos = 0L
 
                 for (item in snapshot.children) {
-                    val corrida = item.getValue(Corrida::class.java)
-                    if (corrida != null) {
-                        distanciaTotalKm += corrida.distanciaKm
-                        tempoTotalSegundos += corrida.tempoSegundos
+                    try {
+                        // Leitura segura campo a campo prevenindo crashes por incompatibilidade de tipos
+                        val dist = item.child("distanciaKm").getValue(Double::class.java)
+                            ?: item.child("distanciaKm").getValue(Long::class.java)?.toDouble()
+                            ?: 0.0
+
+                        val tempo = item.child("tempoSegundos").getValue(Long::class.java)
+                            ?: item.child("tempoSegundos").getValue(Double::class.java)?.toLong()
+                            ?: 0L
+
+                        distanciaTotalKm += dist
+                        tempoTotalSegundos += tempo
+                    } catch (e: Exception) {
+                        Log.e("PerfilActivity", "Erro ao processar corrida: ${e.message}")
                     }
                 }
 
+                // Atualiza as variáveis na interface gráfica
                 atualizarInterface(distanciaTotalKm, tempoTotalSegundos)
             }
 
             override fun onCancelled(error: DatabaseError) {
+                Log.e("PerfilActivity", "Erro Firebase: ${error.message}")
+                Toast.makeText(this@PerfilActivity, "Erro ao carregar dados", Toast.LENGTH_SHORT).show()
                 atualizarInterface(0.0, 0L)
             }
         })
     }
 
     private fun atualizarInterface(distanciaKm: Double, tempoSegundos: Long) {
+        // 1. Atualiza Distância Total
         txtDistanciaTotal.text = String.format(Locale.US, "%.1f KM", distanciaKm)
 
+        // 2. Atualiza Tempo Total
         val horas = tempoSegundos / 3600
         val minutos = (tempoSegundos % 3600) / 60
         val segundosRestantes = tempoSegundos % 60
@@ -121,6 +162,7 @@ class PerfilActivity : ComponentActivity() {
             String.format(Locale.US, "%02dm %02ds", minutos, segundosRestantes)
         }
 
+        // 3. Atualiza Pace Médio (Minutos por Quilômetro)
         if (distanciaKm > 0.0 && tempoSegundos > 0L) {
             val tempoTotalMinutos = tempoSegundos / 60.0
             val paceMinutosPorKm = tempoTotalMinutos / distanciaKm
@@ -132,5 +174,10 @@ class PerfilActivity : ComponentActivity() {
         } else {
             txtPaceMedio.text = "--:-- /KM"
         }
+    }
+
+    override fun onDestroy() {
+        animadorPulso?.cancel()
+        super.onDestroy()
     }
 }

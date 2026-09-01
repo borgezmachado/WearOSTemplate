@@ -1,19 +1,15 @@
 package com.ifpr.wearostemplate.presentation
 
 import android.Manifest
-import android.animation.ObjectAnimator
-import android.animation.PropertyValuesHolder
-import android.animation.ValueAnimator
+import android.graphics.BlurMaskFilter
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.graphics.BlurMaskFilter
 import android.location.Location
 import android.os.Bundle
 import android.os.SystemClock
 import android.view.View
 import android.view.animation.AnimationUtils
 import android.widget.Button
-import android.widget.ImageButton
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.ComponentActivity
@@ -51,12 +47,11 @@ class MainActivity : ComponentActivity() {
     private var txtTempo: TextView? = null
     private var txtDistancia: TextView? = null
     private var txtRitmo: TextView? = null
+    private var txtCalorias: TextView? = null
 
     private var btnStart: Button? = null
     private var btnStop: Button? = null
-    private var btnPlay: ImageButton? = null
     private var btnPerfil: Button? = null
-    private var pulseRing: View? = null
 
     // DADOS DA CORRIDA
     private var corridaEmAndamento = false
@@ -100,12 +95,11 @@ class MainActivity : ComponentActivity() {
         txtTempo = findViewById(R.id.txtTempo)
         txtDistancia = findViewById(R.id.txtDistancia)
         txtRitmo = findViewById(R.id.txtRitmo)
+        txtCalorias = findViewById(R.id.txtCalorias)
 
         btnStart = findViewById(R.id.btnStart)
         btnStop = findViewById(R.id.btnStop)
-        btnPlay = findViewById(R.id.btnPlay)
         btnPerfil = findViewById(R.id.btnPerfil)
-        pulseRing = findViewById(R.id.pulseRing)
 
         // ANIMAÇÕES E EFEITOS
         txtTitulo?.let { aplicarEfeitoGlowNeon(it) }
@@ -114,8 +108,6 @@ class MainActivity : ComponentActivity() {
         txtTitulo?.startAnimation(animEntrada)
         txtSubtitulo?.startAnimation(animEntrada)
         btnPerfil?.startAnimation(animEntrada)
-
-        pulseRing?.let { iniciarAnimacaoPulso(it) }
 
         // LOCALIZAÇÃO E EVENTOS
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
@@ -128,31 +120,11 @@ class MainActivity : ComponentActivity() {
         textView.paint.maskFilter = BlurMaskFilter(12f, BlurMaskFilter.Blur.SOLID)
     }
 
-    private fun iniciarAnimacaoPulso(view: View) {
-        val scaleX = PropertyValuesHolder.ofFloat(View.SCALE_X, 0.9f, 1.25f)
-        val scaleY = PropertyValuesHolder.ofFloat(View.SCALE_Y, 0.9f, 1.25f)
-        val alpha = PropertyValuesHolder.ofFloat(View.ALPHA, 0.5f, 0.1f)
-
-        ObjectAnimator.ofPropertyValuesHolder(view, scaleX, scaleY, alpha).apply {
-            duration = 900
-            repeatCount = ValueAnimator.INFINITE
-            repeatMode = ValueAnimator.REVERSE
-            start()
-        }
-    }
-
     private fun configurarBotoes() {
         btnPerfil?.setOnClickListener { view ->
             view.animate().scaleX(0.92f).scaleY(0.92f).setDuration(90).withEndAction {
                 view.animate().scaleX(1.0f).scaleY(1.0f).setDuration(90).start()
                 startActivity(Intent(this, PerfilActivity::class.java))
-            }.start()
-        }
-
-        btnPlay?.setOnClickListener { view ->
-            view.animate().scaleX(0.85f).scaleY(0.85f).setDuration(90).withEndAction {
-                view.animate().scaleX(1.0f).scaleY(1.0f).setDuration(90).start()
-                startActivity(Intent(this, TreinoActivity::class.java))
             }.start()
         }
 
@@ -181,8 +153,10 @@ class MainActivity : ComponentActivity() {
         tempoInicio = SystemClock.elapsedRealtime()
 
         txtTempo?.text = "00:00"
-        txtDistancia?.text = "0.00 km"
-        txtRitmo?.text = "-- min/km"
+        txtDistancia?.text = "0.00"
+        txtRitmo?.text = "--:--"
+        txtCalorias?.text = "0"
+        txtSubtitulo?.text = "TREINO ATIVO"
 
         txtTempo?.post(atualizadorTempo)
         iniciarAtualizacoesLocalizacao()
@@ -237,7 +211,7 @@ class MainActivity : ComponentActivity() {
 
     private fun atualizarDadosNaTela() {
         val distanciaKm = distanciaTotalMetros / 1000.0
-        txtDistancia?.text = String.format(Locale.getDefault(), "%.2f km", distanciaKm)
+        txtDistancia?.text = String.format(Locale.getDefault(), "%.2f", distanciaKm)
 
         val tempoSegundos = (SystemClock.elapsedRealtime() - tempoInicio) / 1000
 
@@ -245,6 +219,9 @@ class MainActivity : ComponentActivity() {
             val ritmo = calcularRitmoMedio(tempoSegundos, distanciaKm)
             txtRitmo?.text = formatarRitmo(ritmo)
         }
+
+        val calorias = calcularCalorias(distanciaKm, 70.0)
+        txtCalorias?.text = String.format(Locale.getDefault(), "%.0f", calorias)
     }
 
     private fun atualizarTempoNaTela(tempoMilissegundos: Long) {
@@ -260,10 +237,10 @@ class MainActivity : ComponentActivity() {
     }
 
     private fun formatarRitmo(ritmo: Double): String {
-        if (ritmo <= 0.0) return "-- min/km"
+        if (ritmo <= 0.0) return "--:--"
         val minutos = ritmo.toInt()
         val segundos = ((ritmo - minutos) * 60).toInt()
-        return String.format(Locale.getDefault(), "%d:%02d min/km", minutos, segundos)
+        return String.format(Locale.getDefault(), "%02d:%02d", minutos, segundos)
     }
 
     private fun calcularVelocidadeMedia(distanciaKm: Double, tempoSegundos: Long): Double {
@@ -284,6 +261,7 @@ class MainActivity : ComponentActivity() {
         corridaEmAndamento = false
         fusedLocationClient.removeLocationUpdates(locationCallback)
         txtTempo?.removeCallbacks(atualizadorTempo)
+        txtSubtitulo?.text = "READY TO RUN"
 
         val tempoMilissegundos = SystemClock.elapsedRealtime() - tempoInicio
         val tempoSegundos = tempoMilissegundos / 1000
